@@ -48,8 +48,9 @@ public class EmployeeRepo {
 		strSql.append(" FROM EMPLOYEE e LEFT JOIN ADDRESS a ON e.ADDRESS_ID = a.ADDRESS_ID");
 		strSql.append(searchCondition(requestBody));
 		strSql.append(" ORDER BY EMPLOYEE_ID ");
+		strSql.append(" LIMIT ");strSql.append(limit);
 		strSql.append(" OFFSET ");strSql.append(offset);
-		strSql.append(" ROWS FETCH NEXT ");strSql.append(limit);strSql.append(" ROWS ONLY ");
+//		strSql.append(" ROWS FETCH NEXT ");strSql.append(limit);strSql.append(" ROWS ONLY ");
 		
 	    return jdbcTemplate.query(strSql.toString(), (rs, rowNum) -> getEmployeeMapper(rs, rowNum));
 	}
@@ -65,10 +66,11 @@ public class EmployeeRepo {
 		employee.setEmployeeId(rs.getInt("employeeId"));
 		employee.setEmployeeName(rs.getString("employeeName"));
 		employee.setEmployeeLevel(rs.getString("employeeLevel"));
-		employee.setPrimaryPhoneNumber(rs.getInt("primaryPhoneNumber"));
-		employee.setSecondaryPhoneNumber(rs.getInt("secondaryPhoneNumber"));
-		employee.setDateOfJoining(rs.getInt("dateOfJoining"));
-		employee.setDateOfResign(rs.getInt("dateOfResign"));
+		employee.setPrimaryPhoneNumber(Integer.parseInt(rs.getString("primaryPhoneNumber")));
+		employee.setSecondaryPhoneNumber(Integer.parseInt(rs.getString("secondaryPhoneNumber")));
+		employee.setDateOfJoining(Integer.parseInt(rs.getString("dateOfJoining")));
+		String dateOfResign = StringUtils.isNotEmpty(rs.getString("dateOfResign")) ? rs.getString("dateOfResign") : "0";
+		employee.setDateOfResign(Integer.parseInt(dateOfResign));
 		employee.setEmployeeStatus(rs.getString("employeeStatus"));
 		employee.setEmail(rs.getString("email"));
 		
@@ -107,16 +109,20 @@ public class EmployeeRepo {
 				condition.append("'");
 			}
 			if(Objects.nonNull(requestBody.getPayload().getPrimaryPhoneNumber())) {
-				condition.append(" AND e.primary_phone_number = ");condition.append(requestBody.getPayload().getPrimaryPhoneNumber());
+				condition.append(" AND e.primary_phone_number = '");condition.append(requestBody.getPayload().getPrimaryPhoneNumber());
+				condition.append("'");
 			}
 			if(Objects.nonNull(requestBody.getPayload().getSecondaryPhoneNumber())) {
-				condition.append(" AND e.secondary_phone_number = ");condition.append(requestBody.getPayload().getSecondaryPhoneNumber());
+				condition.append(" AND e.secondary_phone_number = '");condition.append(requestBody.getPayload().getSecondaryPhoneNumber());
+				condition.append("'");
 			}
 			if(Objects.nonNull(requestBody.getPayload().getDateOfJoining())) {
-				condition.append(" AND e.date_of_joining = ");condition.append(requestBody.getPayload().getDateOfJoining());
+				condition.append(" AND e.date_of_joining = '");condition.append(requestBody.getPayload().getDateOfJoining());
+				condition.append("'");
 			}
 			if(Objects.nonNull(requestBody.getPayload().getDateOfResign())) {
-				condition.append(" AND e.date_of_resign = ");condition.append(requestBody.getPayload().getDateOfResign());
+				condition.append(" AND e.date_of_resign '= ");condition.append(requestBody.getPayload().getDateOfResign());
+				condition.append("'");
 			}
 			if(StringUtils.isNotEmpty(requestBody.getPayload().getEmployeeStatus())) {
 				condition.append(" AND UPPER(e.EMPLOYEE_status) = '");
@@ -162,7 +168,7 @@ public class EmployeeRepo {
 
 				jdbcTemplate.update(connection -> {
 					PreparedStatement ps = connection.prepareStatement(addressSql.toString(),
-							new String[] { "ADDRESS_ID" });
+							new String[] { "address_id" });
 					ps.setString(1, address.getAddressType().name());
 					ps.setString(2, address.getAddressLine1());
 					ps.setString(3, address.getAddressLine2());
@@ -178,13 +184,13 @@ public class EmployeeRepo {
 				
 				jdbcTemplate.update(connection -> {
 					PreparedStatement ps = connection.prepareStatement(employeeSql.toString(),
-							new String[] { "EMPLOYEE_ID" });
+							new String[] { "employee_id" });
 					ps.setString(1, employee.getEmployeeName());
 					ps.setString(2, employee.getEmployeeLevel());
 					ps.setInt(3, Integer.parseInt(String.valueOf(addressId)));
-					ps.setInt(4, employee.getPrimaryPhoneNumber());
-					ps.setInt(5, employee.getSecondaryPhoneNumber());
-					ps.setInt(6, employee.getDateOfJoining());
+					ps.setString(4, String.valueOf(employee.getPrimaryPhoneNumber()));
+					ps.setString(5, String.valueOf(employee.getSecondaryPhoneNumber()));
+					ps.setString(6, String.valueOf(employee.getDateOfJoining()));
 					ps.setString(7, employee.getEmployeeStatus());
 					ps.setString(8, employee.getEmail());
 					return ps;

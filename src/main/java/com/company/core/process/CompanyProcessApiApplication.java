@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+import java.util.TimeZone;
 
 import javax.sql.DataSource;
 
@@ -72,6 +73,7 @@ public class CompanyProcessApiApplication {
 	}
 
 	public static void main(String[] args) {
+//		TimeZone.setDefault(TimeZone.getTimeZone("Asia/Kolkata"));	
 		SpringApplication.run(CompanyProcessApiApplication.class, args);
 	}
 
