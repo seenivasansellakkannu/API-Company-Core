@@ -27,10 +27,10 @@ public class EmployeeSearchPayloadRequestBody {
 	public String addressId;
 	
 	@JsonProperty("primaryPhoneNumber")
-	public Integer primaryPhoneNumber;
+	public String primaryPhoneNumber;
 	
 	@JsonProperty("secondaryPhoneNumber")
-	public Integer secondaryPhoneNumber;
+	public String secondaryPhoneNumber;
 	
 	@JsonProperty("dateOfJoining")
 	public Integer dateOfJoining;

@@ -13,7 +13,6 @@ import lombok.ToString;
 public class Project {
 
 	@JsonProperty("projectId")
-	@JsonIgnore
 	public Integer projectId;
 	
 	@JsonProperty("projectCode")
