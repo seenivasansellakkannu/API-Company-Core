@@ -30,7 +30,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 @CrossOrigin
 @RestController
 @RequestMapping("/sr-construction")
-public class CompanyApiController {
+public class EmployeeApiController {
 	
 	@Autowired
 	private EmployeeService employeeService;
@@ -56,7 +56,7 @@ public class CompanyApiController {
 		return ResponseEntity.status(HttpStatus.OK).body(employeeService.searchEmployee(requestBody, limit, offset));
 	}
 	
-	@Operation(summary = "Add the employee details", operationId = "employeeSearch", description = "Employee details add", responses = {
+	@Operation(summary = "Add the employee details", operationId = "addEmployee", description = "Employee details add", responses = {
 			@ApiResponse(responseCode = "200", description = "Employee list added successfully.", content = @Content(schema = @Schema(implementation = SuccessResponse.class))),
 			@ApiResponse(responseCode = "400", description = "Bad Request", content = @Content(schema = @Schema(implementation = String.class))),
 			@ApiResponse(responseCode = "500", description = "Internal Server Error", content = @Content(schema = @Schema(implementation = String.class))) }

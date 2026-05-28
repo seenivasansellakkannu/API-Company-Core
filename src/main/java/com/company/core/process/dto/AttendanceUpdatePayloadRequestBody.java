@@ -1,5 +1,7 @@
 package com.company.core.process.dto;
 
+import java.util.List;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.Getter;
@@ -11,7 +13,7 @@ import lombok.ToString;
 @ToString
 public class AttendanceUpdatePayloadRequestBody {
 	
-	@JsonProperty("attendance")
-	public Attendance attendance;
+	@JsonProperty("attendances")
+	public List<Attendance> attendances;
 	
 }
