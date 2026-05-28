@@ -22,4 +22,7 @@ public class EmployeeSearchResult {
 	@JsonProperty("address")
 	public Address address;
 	
+	@JsonProperty("salary")
+	public Salary salary;
+	
 }

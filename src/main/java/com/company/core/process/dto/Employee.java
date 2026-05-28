@@ -13,7 +13,6 @@ import lombok.ToString;
 public class Employee {
 	
 	@JsonProperty("employeeId")
-	@JsonIgnore
 	public Integer employeeId;
 
 	@JsonProperty("employeeName")
@@ -23,14 +22,13 @@ public class Employee {
 	public String employeeLevel;
 	
 	@JsonProperty("addressId")
-	@JsonIgnore
 	public String addressId;
 	
 	@JsonProperty("primaryPhoneNumber")
-	public Integer primaryPhoneNumber;
+	public String primaryPhoneNumber;
 	
 	@JsonProperty("secondaryPhoneNumber")
-	public Integer secondaryPhoneNumber;
+	public String secondaryPhoneNumber;
 	
 	@JsonProperty("dateOfJoining")
 	public Integer dateOfJoining;

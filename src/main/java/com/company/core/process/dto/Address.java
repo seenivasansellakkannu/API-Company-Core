@@ -13,7 +13,6 @@ import lombok.ToString;
 public class Address {
 
 	@JsonProperty("addressId")
-	@JsonIgnore
 	public Integer addressId;
 	
 	@JsonProperty("addressType")

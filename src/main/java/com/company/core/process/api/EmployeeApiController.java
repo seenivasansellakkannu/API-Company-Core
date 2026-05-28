@@ -6,6 +6,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,7 +30,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 @CrossOrigin
 @RestController
 @RequestMapping("/sr-construction")
-public class CompanyApiController {
+public class EmployeeApiController {
 	
 	@Autowired
 	private EmployeeService employeeService;
@@ -54,7 +56,7 @@ public class CompanyApiController {
 		return ResponseEntity.status(HttpStatus.OK).body(employeeService.searchEmployee(requestBody, limit, offset));
 	}
 	
-	@Operation(summary = "Add the employee details", operationId = "employeeSearch", description = "Employee details add", responses = {
+	@Operation(summary = "Add the employee details", operationId = "addEmployee", description = "Employee details add", responses = {
 			@ApiResponse(responseCode = "200", description = "Employee list added successfully.", content = @Content(schema = @Schema(implementation = SuccessResponse.class))),
 			@ApiResponse(responseCode = "400", description = "Bad Request", content = @Content(schema = @Schema(implementation = String.class))),
 			@ApiResponse(responseCode = "500", description = "Internal Server Error", content = @Content(schema = @Schema(implementation = String.class))) }
@@ -65,6 +67,32 @@ public class CompanyApiController {
 		setTenant();
 		return ResponseEntity.status(HttpStatus.OK).body(employeeService.addEmployee(requestBody));
 	}
+	
+	@Operation(summary = "Update the employee details", operationId = "updateEmployee", description = "Employee details UPDATE", responses = {
+			@ApiResponse(responseCode = "200", description = "Employee Details updated successfully.", content = @Content(schema = @Schema(implementation = SuccessResponse.class))),
+			@ApiResponse(responseCode = "400", description = "Bad Request", content = @Content(schema = @Schema(implementation = String.class))),
+			@ApiResponse(responseCode = "500", description = "Internal Server Error", content = @Content(schema = @Schema(implementation = String.class))) }
+
+			, tags = { "Employee", })
+	@PatchMapping(value = "/employee",consumes = { "application/json" }, produces = { "application/json" })
+	public ResponseEntity<SuccessResponse> updateEmployee(@RequestBody EmployeeUpdateRequestBody requestBody) throws Exception {
+		setTenant();
+		return ResponseEntity.status(HttpStatus.OK).body(employeeService.updateEmployee(requestBody));
+	}
+	
+	@Operation(summary = "Delete the employee details", operationId = "deleteEmployee", description = "Employee details DELETE", responses = {
+			@ApiResponse(responseCode = "200", description = "Employee Details Deleted successfully.", content = @Content(schema = @Schema(implementation = SuccessResponse.class))),
+			@ApiResponse(responseCode = "400", description = "Bad Request", content = @Content(schema = @Schema(implementation = String.class))),
+			@ApiResponse(responseCode = "500", description = "Internal Server Error", content = @Content(schema = @Schema(implementation = String.class))) }
+
+			, tags = { "Employee", })
+	@DeleteMapping(value = "/employee",consumes = { "application/json" }, produces = { "application/json" })
+	public ResponseEntity<SuccessResponse> deleteEmployee(@RequestBody EmployeeUpdateRequestBody requestBody) throws Exception {
+		setTenant();
+		return ResponseEntity.status(HttpStatus.OK).body(employeeService.deleteEmployee(requestBody));
+	}
+	
+	
 	
 	public void setTenant() {
 		try {

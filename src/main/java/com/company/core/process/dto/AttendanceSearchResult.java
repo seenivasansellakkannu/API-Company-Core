@@ -1,5 +1,6 @@
 package com.company.core.process.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.Getter;
@@ -11,19 +12,20 @@ import lombok.ToString;
 @ToString
 public class AttendanceSearchResult {
 	
-	@JsonProperty("projectId")
-	public Integer projectId;
+	@JsonProperty("totalRecords")
+	@JsonIgnore
+	public Integer totalRecords;
 	
-	@JsonProperty("projectName")
-	public String projectName;
-
-	@JsonProperty("employeeId")
-	public Integer employeeId;
+	@JsonProperty("employee")
+	public Employee employee;
 	
-	@JsonProperty("employeeName")
-	public String employeeName;
+	@JsonProperty("attendance")
+	public Attendance attendance;
 	
-	@JsonProperty("workDate")
-	public Integer workDate;
+	@JsonProperty("salary")
+	public Salary salary;
+	
+	@JsonProperty("project")
+	public Project project;
 	
 }
