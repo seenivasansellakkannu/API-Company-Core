@@ -12,7 +12,7 @@ import lombok.ToString;
 public class SalaryCalculationSuccessResponse {
 	
 	@JsonProperty("project")
-	public SalaryCalculationProject SalaryCalculationProject;
+	public SalaryCalculationProject project;
 	
 	@JsonProperty("totalRecords")
 	public Integer totalRecords;

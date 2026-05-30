@@ -1,6 +1,5 @@
 package com.company.core.process.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.Getter;
@@ -22,6 +21,6 @@ public class Project {
 	public String projectName;
 	
 	@JsonProperty("addressId")
-	public String addressId;
+	public Integer addressId;
 	
 }
