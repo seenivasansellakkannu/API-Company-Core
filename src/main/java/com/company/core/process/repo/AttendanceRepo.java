@@ -92,7 +92,7 @@ public class AttendanceRepo {
 		attendance.setEmployeeId(rs.getInt("employeeId"));
 		attendance.setProjectId(rs.getInt("projectId"));
 		attendance.setWorkDate(rs.getInt("workDate"));
-		attendance.setWorkdays(rs.getInt("workdays"));
+		attendance.setWorkdays(rs.getBigDecimal("workdays"));
 		
 		Project project = new Project();
 		project.setProjectCode(rs.getString("projectCode"));
@@ -136,17 +136,19 @@ public class AttendanceRepo {
 				condition.append("'");
 			}
 			if(Objects.nonNull(requestBody.getPayload().getProjectCode())) {
-				condition.append(" AND UPPER(p.PROJECT_CODE) = '");
+				condition.append(" AND p.PROJECT_CODE = '");
 				condition.append(requestBody.getPayload().getProjectCode());
-				condition.append("'");
+				condition.append("' ");
 			}
 			if(StringUtils.isNotEmpty(requestBody.getPayload().getProjectName())) {
-				condition.append(" AND p.PROJECT_NAME = '");condition.append(requestBody.getPayload().getProjectName());
+				condition.append(" AND UPPER(p.PROJECT_NAME) = '");condition.append(requestBody.getPayload().getProjectName().toUpperCase());
 				condition.append("'");
 			}
 			if(Objects.nonNull(requestBody.getPayload().getFromDate()) && Objects.nonNull(requestBody.getPayload().getToDate())) {
-				condition.append(" AND a.WORK_DATE BETWEEN ");condition.append(requestBody.getPayload().getFromDate());
-				condition.append(" AND ");condition.append(requestBody.getPayload().getToDate());
+				condition.append(" AND TO_DATE(a.WORK_DATE, 'DDMMYYYY') BETWEEN ");
+				condition.append(" TO_DATE('").append(requestBody.getPayload().getFromDate()).append("', 'DDMMYYYY') ");
+				condition.append(" AND ");
+				condition.append(" TO_DATE('").append(requestBody.getPayload().getToDate()).append("', 'DDMMYYYY') ");
 			}
 		}
 		return condition.toString();

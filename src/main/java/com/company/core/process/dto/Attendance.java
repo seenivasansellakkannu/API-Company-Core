@@ -1,6 +1,7 @@
 package com.company.core.process.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import java.math.BigDecimal;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.Getter;
@@ -13,7 +14,6 @@ import lombok.ToString;
 public class Attendance {
 	
 	@JsonProperty("attendanceId")
-	@JsonIgnore
 	public Integer attendanceId;
 	
 	@JsonProperty("projectId")
@@ -26,7 +26,7 @@ public class Attendance {
 	public Integer workDate;
 	
 	@JsonProperty("workdays")
-	public Integer workdays;
+	public BigDecimal workdays;
 	
 	
 }
