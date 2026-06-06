@@ -17,4 +17,7 @@ public class ProjectSearchPayloadRequestBody {
 	@JsonProperty("projectName")
 	public String projectName;
 	
+	@JsonProperty("clientName")
+	public String clientName;
+	
 }

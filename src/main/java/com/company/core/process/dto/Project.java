@@ -1,5 +1,7 @@
 package com.company.core.process.dto;
 
+import java.math.BigDecimal;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.Getter;
@@ -19,6 +21,18 @@ public class Project {
 	
 	@JsonProperty("projectName")
 	public String projectName;
+	
+	@JsonProperty("clientName")
+	public String clientName;
+	
+	@JsonProperty("totalSquareFeet")
+	public BigDecimal totalSquareFeet = BigDecimal.ZERO;
+	
+	@JsonProperty("squareFeetRate")
+	public BigDecimal squareFeetRate = BigDecimal.ZERO;
+	
+	@JsonProperty("estimatedAmount")
+	public BigDecimal estimatedAmount  = BigDecimal.ZERO;
 	
 	@JsonProperty("addressId")
 	public Integer addressId;

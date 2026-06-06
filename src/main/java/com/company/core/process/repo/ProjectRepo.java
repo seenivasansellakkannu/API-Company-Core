@@ -51,6 +51,7 @@ public class ProjectRepo {
 		strSql.append("SELECT COUNT(*) OVER() AS totalRecords, ");
 		//PROJECT
 		strSql.append("p.PROJECT_ID as projectId, p.PROJECT_CODE as projectCode, p.PROJECT_NAME as projectName, p.ADDRESS_ID as addressId, ");
+		strSql.append("p.CLIENT_NAME as clientName, p.TOTAL_SQUARE_FEET as totalSquareFeet, p.SQUARE_FEET_RATE as squareFeetRate, p.ESTIMATED_AMOUNT as estimatedAmount, ");
 		//ADDRESS
 		strSql.append("a.ADDRESS_ID as addressId, a.ADDRESS_TYPE as addressType, a.ADDRESS_LINE1 as addressLine1, a.ADDRESS_LINE2 as addressLine2, a.CITY as city,");
 		strSql.append("a.THALUK as thaluk, a.ADD_STATE as addState, a.COUNTRY as country, a.PINCODE as pincode ");
@@ -84,6 +85,10 @@ public class ProjectRepo {
 		project.setProjectCode(rs.getString("projectCode"));
 		project.setProjectName(rs.getString("projectName"));
 		project.setAddressId(rs.getInt("addressId"));
+		project.setClientName(rs.getString("clientName"));
+		project.setTotalSquareFeet(rs.getBigDecimal("totalSquareFeet"));
+		project.setSquareFeetRate(rs.getBigDecimal("squareFeetRate"));
+		project.setEstimatedAmount(rs.getBigDecimal("estimatedAmount"));
 		
 		Address address = new Address();
 		address.setAddressId(rs.getInt("addressId"));
@@ -118,8 +123,12 @@ public class ProjectRepo {
 				condition.append("'");
 			}
 			if(StringUtils.isNotEmpty(requestBody.getPayload().getProjectName())) {
-				condition.append(" AND p.PROJECT_NAME = '");condition.append(requestBody.getPayload().getProjectName());
-				condition.append("'");
+				condition.append(" AND p.PROJECT_NAME LIKE '%");condition.append(requestBody.getPayload().getProjectName());
+				condition.append("%'");
+			}
+			if(StringUtils.isNotEmpty(requestBody.getPayload().getClientName())) {
+				condition.append(" AND p.CLIENT_NAME LIKE '%");condition.append(requestBody.getPayload().getClientName());
+				condition.append("%'");
 			}
 		}
 		return condition.toString();
@@ -144,7 +153,7 @@ public class ProjectRepo {
 			addressSql.append(" ADD_STATE, COUNTRY, PINCODE) VALUES(?,?,?,?,?,?,?,?)");
 			
 			StringBuilder projectSql = new StringBuilder();
-			projectSql.append(" INSERT INTO PROJECT (PROJECT_CODE, PROJECT_NAME, ADDRESS_ID");
+			projectSql.append(" INSERT INTO PROJECT (PROJECT_CODE, PROJECT_NAME, CLIENT_NAME, TOTAL_SQUARE_FEET, SQUARE_FEET_RATE, ESTIMATED_AMOUNT, ADDRESS_ID");
 			projectSql.append(" ) VALUES(?,?,?)");
 
 			for (ProjectUpdateBasic employeesDetails : projectDetailsList) {
@@ -169,7 +178,8 @@ public class ProjectRepo {
 
 				int addressId = addressKeyHolder.getKey().intValue();
 				
-				jdbcTemplate.update(projectSql.toString(), Integer.parseInt(String.valueOf(project.getProjectCode())), project.getProjectName(), addressId);
+				jdbcTemplate.update(projectSql.toString(), Integer.parseInt(String.valueOf(project.getProjectCode())), project.getProjectName(), 
+						project.getClientName(), project.getTotalSquareFeet(), project.getSquareFeetRate(), project.getEstimatedAmount(), addressId);
 			}
 		}
 		log.info("addProject method ends");
@@ -191,7 +201,10 @@ public class ProjectRepo {
 
 			StringBuilder projectUpdateSql = new StringBuilder();
 			projectUpdateSql.append(" UPDATE PROJECT SET ");
-			projectUpdateSql.append(" PROJECT_NAME = ?, PROJECT_CODE=? ");
+			projectUpdateSql.append(" PROJECT_NAME = ?, PROJECT_CODE=?, ");
+			projectUpdateSql.append(" CLIENT_NAME = ?, TOTAL_SQUARE_FEET=?, ");
+			projectUpdateSql.append(" SQUARE_FEET_RATE = ?, ESTIMATED_AMOUNT=?, ");
+			projectUpdateSql.append(" UPDATED_AT = CURRENT_TIMESTAMP ");
 			projectUpdateSql.append(" WHERE PROJECT_ID = ? ");
 			
 			StringBuilder addressUpdateSql = new StringBuilder();
@@ -210,7 +223,8 @@ public class ProjectRepo {
 				Project projects = project.getProject();
 				Address address = project.getAddress();
 				
-				jdbcTemplate.update(projectUpdateSql.toString(), projects.getProjectName(),projects.getProjectCode(),
+				jdbcTemplate.update(projectUpdateSql.toString(), projects.getProjectName(),projects.getProjectCode(),projects.getClientName(), 
+						projects.getTotalSquareFeet(), projects.getSquareFeetRate(), projects.getEstimatedAmount(),
 						projects.getProjectId());
 				
 				jdbcTemplate.update(addressUpdateSql.toString(),
