@@ -44,7 +44,7 @@ public class MaterialRepo {
 		//Material
 		strSql.append("m.MATERIAL_ID as materialId, m.MATERIAL_CODE as materialCode, m.MATERIAL_NAME as materialName, ");
 		strSql.append("m.MATERIAL_TYPE as materialType, m.UNIT as unit");
-		strSql.append(" FROM MATERIAL m ");
+		strSql.append(" FROM MATERIAL_MASTER m ");
 		strSql.append(searchCondition(requestBody));
 		strSql.append(" ORDER BY m.MATERIAL_CODE ");
 		strSql.append(" LIMIT ");strSql.append(limit);
@@ -122,7 +122,7 @@ public class MaterialRepo {
 			List<MaterialUpdateBasic> materialList = requestBody.getPayload().getMaterials();
 
 			StringBuilder materialSql = new StringBuilder();
-			materialSql.append("INSERT INTO MATERIAL (MATERIAL_CODE, MATERIAL_NAME, MATERIAL_TYPE, UNIT) ");
+			materialSql.append("INSERT INTO MATERIAL_MASTER (MATERIAL_CODE, MATERIAL_NAME, MATERIAL_TYPE, UNIT) ");
 			materialSql.append("VALUES(?, ?, ?, ?)");
 
 			for (MaterialUpdateBasic materials : materialList) {
