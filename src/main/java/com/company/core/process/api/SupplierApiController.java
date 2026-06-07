@@ -42,13 +42,13 @@ public class SupplierApiController {
 	private String tenantId;
 	
 
-	@Operation(summary = "Retrive the Supplier details based on the search conditions", operationId = "SupplierSearch", description = "Retrive the Supplier list", responses = {
+	@Operation(summary = "Retrive the Supplier details based on the search conditions", operationId = "supplierSearch", description = "Retrive the Supplier list", responses = {
 			@ApiResponse(responseCode = "200", description = "Supplier list successfully retrieved.", content = @Content(schema = @Schema(implementation = SupplierSearchResponse.class))),
 			@ApiResponse(responseCode = "400", description = "Bad Request", content = @Content(schema = @Schema(implementation = String.class))),
 			@ApiResponse(responseCode = "500", description = "Internal Server Error", content = @Content(schema = @Schema(implementation = String.class))) }
 
 			, tags = { "Supplier", })
-	@PostMapping(value = "/Supplier/search",consumes = { "application/json" }, produces = { "application/json" })
+	@PostMapping(value = "/supplier/search",consumes = { "application/json" }, produces = { "application/json" })
 	public ResponseEntity<SupplierSearchResponse> searchSupplier(
 			@RequestParam(defaultValue = "15") Integer limit, @RequestParam(defaultValue = "0") Integer offset,
 			@RequestBody SupplierSearchRequestBody requestBody) throws Exception {
@@ -62,7 +62,7 @@ public class SupplierApiController {
 			@ApiResponse(responseCode = "500", description = "Internal Server Error", content = @Content(schema = @Schema(implementation = String.class))) }
 
 			, tags = { "Supplier", })
-	@PostMapping(value = "/Supplier",consumes = { "application/json" }, produces = { "application/json" })
+	@PostMapping(value = "/supplier",consumes = { "application/json" }, produces = { "application/json" })
 	public ResponseEntity<SuccessResponse> addSupplier(@RequestBody SupplierUpdateRequestBody requestBody) throws Exception {
 		setTenant();
 		return ResponseEntity.status(HttpStatus.OK).body(supplierService.addSupplier(requestBody));
@@ -74,7 +74,7 @@ public class SupplierApiController {
 			@ApiResponse(responseCode = "500", description = "Internal Server Error", content = @Content(schema = @Schema(implementation = String.class))) }
 
 			, tags = { "Supplier", })
-	@PatchMapping(value = "/Supplier",consumes = { "application/json" }, produces = { "application/json" })
+	@PatchMapping(value = "/supplier",consumes = { "application/json" }, produces = { "application/json" })
 	public ResponseEntity<SuccessResponse> updateSupplier(@RequestBody SupplierUpdateRequestBody requestBody) throws Exception {
 		setTenant();
 		return ResponseEntity.status(HttpStatus.OK).body(supplierService.updateSupplier(requestBody));
@@ -86,7 +86,7 @@ public class SupplierApiController {
 			@ApiResponse(responseCode = "500", description = "Internal Server Error", content = @Content(schema = @Schema(implementation = String.class))) }
 
 			, tags = { "Supplier", })
-	@DeleteMapping(value = "/Supplier",consumes = { "application/json" }, produces = { "application/json" })
+	@DeleteMapping(value = "/supplier",consumes = { "application/json" }, produces = { "application/json" })
 	public ResponseEntity<SuccessResponse> deleteSupplier(@RequestBody SupplierUpdateRequestBody requestBody) throws Exception {
 		setTenant();
 		return ResponseEntity.status(HttpStatus.OK).body(supplierService.deleteSupplier(requestBody));

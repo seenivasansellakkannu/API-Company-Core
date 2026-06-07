@@ -13,7 +13,7 @@ import lombok.ToString;
 @ToString
 public class VendorUpdatePayloadRequestBody {
 	
-	@JsonProperty("vendorDetails")
-	public List<VendorUpdateBasic> vendorDetails;
+	@JsonProperty("vendors")
+	public List<VendorUpdateBasic> vendors;
 	
 }
