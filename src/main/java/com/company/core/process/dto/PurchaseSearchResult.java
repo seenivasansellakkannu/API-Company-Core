@@ -22,4 +22,14 @@ public class PurchaseSearchResult {
 	@JsonProperty("details")
 	public PurchaseDetails details;
 	
+	@JsonProperty("material")
+	public MaterialMaster material;
+	
+	@JsonProperty("project")
+	public Project project;
+	
+	@JsonProperty("supplier")
+	public Supplier supplier;
+	
+	
 }
